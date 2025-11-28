@@ -1,0 +1,24 @@
+<div class="home-container">
+  <section class="hero">
+    <div class="hero-content">
+      <h1>🎮 Welcome to GameTracker</h1>
+      <p>Discover, track, and explore your favorite video games</p>
+      <button class="cta-button" routerLink="/browse">Browse Games</button>
+    </div>
+  </section>
+
+  <section class="featured-section">
+    <h2>Featured Games</h2>
+    
+    <div *ngIf="loading" class="loading">
+      <p>Loading games...</p>
+    </div>
+
+    <div *ngIf="!loading" class="games-grid">
+      <app-game-card 
+        *ngFor="let game of featuredGames" 
+        [game]="game">
+      </app-game-card>
+    </div>
+  </section>
+</div>

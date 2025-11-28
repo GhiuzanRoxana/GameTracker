@@ -14,3 +14,10 @@ export interface GameDetail extends Game {
   publishers?: { id: number; name: string; }[];
   developers?: { id: number; name: string; }[];
 }
+
+export interface GameResponse {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: Game[];
+}
