@@ -1,0 +1,22 @@
+<nav class="navbar">
+  <div class="nav-container">
+    <div class="logo">
+      <a routerLink="/">🎮 GameTracker</a>
+    </div>
+
+    <div class="search-bar">
+      <input 
+        type="text" 
+        [(ngModel)]="searchQuery"
+        (keyup.enter)="onSearch()"
+        placeholder="Search games...">
+      <button (click)="onSearch()">Search</button>
+    </div>
+
+    <div class="nav-links">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
+      <a routerLink="/browse" routerLinkActive="active">Browse</a>
+      <a routerLink="/favorites" routerLinkActive="active">Favorites</a>
+    </div>
+  </div>
+</nav>
