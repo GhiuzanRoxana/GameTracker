@@ -1,0 +1,25 @@
+<div class="browse-container">
+  <header class="browse-header">
+    <h1>Browse Games</h1>
+    <p>Discover thousands of games</p>
+  </header>
+
+  <div *ngIf="loading" class="loading">
+    <p>Loading games...</p>
+  </div>
+
+  <div *ngIf="!loading" class="games-section">
+    <div class="games-grid">
+      <app-game-card 
+        *ngFor="let game of games" 
+        [game]="game">
+      </app-game-card>
+    </div>
+
+    <div class="load-more">
+      <button (click)="loadMore()" class="load-more-btn">
+        Load More Games
+      </button>
+    </div>
+  </div>
+</div>
