@@ -1,0 +1,19 @@
+<div class="game-card" [routerLink]="['/game', game.id]">
+  <div class="game-image">
+    <img [src]="game.background_image || 'assets/placeholder.jpg'" [alt]="game.name" />
+    <div class="rating" *ngIf="game.rating">
+      ⭐ {{ game.rating }}
+    </div>
+  </div>
+  
+  <div class="game-info">
+    <h3>{{ game.name }}</h3>
+    <p class="release-date" *ngIf="game.released">{{ game.released | date:'MMM yyyy' }}</p>
+    
+    <div class="genres" *ngIf="game.genres && game.genres.length > 0">
+      <span class="genre-tag" *ngFor="let genre of game.genres.slice(0, 2)">
+        {{ genre.name }}
+      </span>
+    </div>
+  </div>
+</div>
