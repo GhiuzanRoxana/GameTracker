@@ -7,8 +7,8 @@ import { Game } from '../../models/game.model';
   selector: 'app-game-card',
   standalone: true,
   imports: [CommonModule, RouterLink],
-    templateUrl: './game-card.component.html',
-    styleUrl: './game-card.component.css'
+    templateUrl: './game-card.html',
+    styleUrl: './game-card.css'
 })
 export class GameCardComponent {
   @Input() game!: Game;
