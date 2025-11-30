@@ -1,0 +1,99 @@
+.game-detail-page {
+  padding: 24px;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 16px;
+  text-decoration: none;
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.back-link:hover {
+  opacity: 1;
+}
+
+.loading,
+.error {
+  font-size: 16px;
+  margin-top: 16px;
+}
+
+.error {
+  color: #ff6b6b;
+}
+
+.game-detail {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.info-column {
+  flex: 1 1 320px;
+  max-width: 600px;
+}
+
+.media-column {
+  flex: 1 1 320px;
+}
+
+.title {
+  font-size: 28px;
+  margin-bottom: 12px;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 14px;
+  opacity: 0.9;
+  margin-bottom: 12px;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.chip {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.description {
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.trailer video {
+  width: 100%;
+  max-height: 360px;
+  border-radius: 8px;
+  outline: none;
+}
+
+.screenshots h3 {
+  margin: 16px 0 8px;
+  font-size: 16px;
+}
+
+.screenshots-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 8px;
+}
+
+.screenshots-grid img {
+  width: 100%;
+  display: block;
+  border-radius: 6px;
+  object-fit: cover;
+}
