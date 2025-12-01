@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GameService } from '../../services/game.service';
-import { GameCardComponent } from '../../components/game-card/game-card.component';
+import { GameCardComponent } from '../../components/game-card/game-card';
 import { Game } from '../../models/game.model';
 
 @Component({
   selector: 'app-browse',
   standalone: true,
   imports: [CommonModule, GameCardComponent],
-    templateUrl: './browse.component.html',
-  styleUrl: './browse.component.css'
+   templateUrl: './browse.html',
+   styleUrl: './browse.css'
 })
 export class BrowseComponent implements OnInit {
   games: Game[] = [];

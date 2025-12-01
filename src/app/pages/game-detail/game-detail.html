@@ -1,0 +1,99 @@
+<div class="game-detail-page">
+  <a routerLink="/browse" class="back-link">← Back to browse</a>
+
+  <div *ngIf="isLoading" class="loading">
+    Loading game details...
+  </div>
+
+  <div *ngIf="!isLoading && error" class="error">
+    {{ error }}
+  </div>
+
+  <div
+    *ngIf="!isLoading && !error && game as g"
+    class="game-detail"
+  >
+    <div class="info-column">
+      <div class="title-row">
+  <h1 class="title">
+    {{ g.name }}
+  </h1>
+
+  <button
+    class="favorite-btn"
+    (click)="toggleFavorite()"
+    [class.is-favorite]="isFavorite"
+  >
+    {{ isFavorite ? '★ Favorite' : '☆ Add to favorites' }}
+  </button>
+</div>
+
+      <div class="meta">
+        <span *ngIf="g.released">
+          Release: {{ g.released | date }}
+        </span>
+
+        <span *ngIf="g.rating">
+          Rating: {{ g.rating }} / 5
+        </span>
+
+        <span *ngIf="g.metacritic">
+          Metacritic: {{ g.metacritic }}
+        </span>
+      </div>
+
+      <div class="chips">
+        <span
+          class="chip"
+          *ngFor="let platform of g.parent_platforms || []"
+        >
+          {{ platform.platform.name }}
+        </span>
+
+        <span
+          class="chip"
+          *ngFor="let genre of g.genres || []"
+        >
+          {{ genre.name }}
+        </span>
+      </div>
+
+      <p
+        class="description"
+        *ngIf="g.description_raw"
+      >
+        {{ g.description_raw }}
+      </p>
+
+      <div class="extra" *ngIf="g.website">
+        <a
+          [href]="g.website"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Official website
+        </a>
+      </div>
+    </div>
+
+    <div class="media-column">
+      <div class="trailer" *ngIf="mainTrailerUrl">
+        <video
+          [src]="mainTrailerUrl"
+          controls
+        ></video>
+      </div>
+
+      <div class="screenshots" *ngIf="screenshots.length">
+        <h3>Screenshots</h3>
+        <div class="screenshots-grid">
+          <img
+            *ngFor="let shot of screenshots"
+            [src]="shot.image"
+            [alt]="g.name + ' screenshot'"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

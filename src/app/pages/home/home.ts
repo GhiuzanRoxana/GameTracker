@@ -2,15 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { GameService } from '../../services/game.service';
-import { GameCardComponent } from '../../components/game-card/game-card.component';
+import { GameCardComponent } from '../../components/game-card/game-card';
 import { Game } from '../../models/game.model';
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [CommonModule, RouterLink, GameCardComponent],
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+   templateUrl: './home.html',
+   styleUrl: './home.css'
 })
 export class HomeComponent implements OnInit {
   featuredGames: Game[] = [];
