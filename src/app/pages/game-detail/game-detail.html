@@ -14,9 +14,19 @@
     class="game-detail"
   >
     <div class="info-column">
-      <h1 class="title">
-        {{ g.name }}
-      </h1>
+      <div class="title-row">
+  <h1 class="title">
+    {{ g.name }}
+  </h1>
+
+  <button
+    class="favorite-btn"
+    (click)="toggleFavorite()"
+    [class.is-favorite]="isFavorite"
+  >
+    {{ isFavorite ? '★ Favorite' : '☆ Add to favorites' }}
+  </button>
+</div>
 
       <div class="meta">
         <span *ngIf="g.released">

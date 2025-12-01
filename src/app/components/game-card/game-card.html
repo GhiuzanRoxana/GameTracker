@@ -7,8 +7,24 @@
   </div>
   
   <div class="game-info">
-    <h3>{{ game.name }}</h3>
-    <p class="release-date" *ngIf="game.released">{{ game.released | date:'MMM yyyy' }}</p>
+    <div class="card-header">
+      <h3 class="game-title">
+        {{ game.name }}
+      </h3>
+
+      <button
+        class="favorite-btn"
+        (click)="toggleFavorite($event)"
+        [class.is-favorite]="isFavorite"
+        title="{{ isFavorite ? 'Remove from favorites' : 'Add to favorites' }}"
+      >
+        {{ isFavorite ? '★' : '☆' }}
+      </button>
+    </div>
+
+    <p class="release-date" *ngIf="game.released">
+      {{ game.released | date:'MMM yyyy' }}
+    </p>
     
     <div class="genres" *ngIf="game.genres && game.genres.length > 0">
       <span class="genre-tag" *ngFor="let genre of game.genres.slice(0, 2)">

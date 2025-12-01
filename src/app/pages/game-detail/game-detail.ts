@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { GameService } from '../../services/game.service';
+import { FavoritesService } from '../../services/favorites.service';
 import {
   GameDetail,
   GameTrailer,
@@ -23,9 +24,10 @@ export class GameDetailComponent implements OnInit {
   error: string | null = null;
 
   constructor(
-    private route: ActivatedRoute,
-    private gameService: GameService
-  ) {}
+  private route: ActivatedRoute,
+  private gameService: GameService,
+  private favoritesService: FavoritesService
+ ) {}
 
   ngOnInit(): void {
     const idParam = this.route.snapshot.paramMap.get('id');
@@ -86,4 +88,22 @@ export class GameDetailComponent implements OnInit {
     }
     return null;
   }
+
+get isFavorite(): boolean {
+  return this.game ? this.favoritesService.isFavorite(this.game.id) : false;
+}
+
+toggleFavorite(): void {
+  if (!this.game) {
+    return;
+  }
+
+  if (this.isFavorite) {
+    this.favoritesService.removeFavorite(this.game.id);
+  } else {
+    this.favoritesService.addFavorite(this.game);
+  }
+}
+
+
 }

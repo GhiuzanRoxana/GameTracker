@@ -97,3 +97,30 @@
   border-radius: 6px;
   object-fit: cover;
 }
+
+.title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.favorite-btn {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: transparent;
+  padding: 6px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.favorite-btn.is-favorite {
+  background: #ffd54f;
+  color: #000;
+  border-color: #ffd54f;
+}
+
+.favorite-btn:hover {
+  transform: translateY(-1px);
+}
