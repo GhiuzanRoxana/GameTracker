@@ -4,21 +4,77 @@
     <p>Discover thousands of games</p>
   </header>
 
+  <form class="filters" (ngSubmit)="onFiltersSubmit()">
+    <div class="filter-group">
+      <label for="search">Search</label>
+      <input
+        id="search"
+        type="text"
+        placeholder="Search by name..."
+        [(ngModel)]="searchTerm"
+        name="search"
+      />
+    </div>
+
+    <div class="filter-group">
+      <label for="platform">Platform</label>
+      <select
+        id="platform"
+        [(ngModel)]="selectedPlatform"
+        name="platform"
+      >
+        <option *ngFor="let option of platformOptions" [value]="option.value">
+          {{ option.label }}
+        </option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label for="year">Year</label>
+      <select
+        id="year"
+        [(ngModel)]="selectedYear"
+        name="year"
+      >
+        <option *ngFor="let year of yearOptions" [value]="year">
+          {{ year === 'all' ? 'All years' : year }}
+        </option>
+      </select>
+    </div>
+
+    <div class="filter-actions">
+      <button type="submit">Apply</button>
+      <button type="button" (click)="onResetFilters()">Reset</button>
+    </div>
+  </form>
+
   <div *ngIf="loading" class="loading">
     <p>Loading games...</p>
   </div>
 
-  <div *ngIf="!loading" class="games-section">
+  <div *ngIf="!loading && errorMessage" class="error">
+    <p>{{ errorMessage }}</p>
+  </div>
+
+  <div *ngIf="!loading && !errorMessage" class="games-section">
+    <p class="results-info">
+      Showing {{ games.length }} of {{ allGames.length }} loaded games
+    </p>
+
     <div class="games-grid">
-      <app-game-card 
-        *ngFor="let game of games" 
-        [game]="game">
-      </app-game-card>
+      <app-game-card
+        *ngFor="let game of games"
+        [game]="game"
+      ></app-game-card>
     </div>
 
-    <div class="load-more">
-      <button (click)="loadMore()" class="load-more-btn">
-        Load More Games
+    <div class="load-more" *ngIf="allGames.length > 0">
+      <button
+        (click)="loadMore()"
+        class="load-more-btn"
+        [disabled]="loadingMore"
+      >
+        {{ loadingMore ? 'Loading...' : 'Load More Games' }}
       </button>
     </div>
   </div>
