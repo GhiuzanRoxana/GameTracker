@@ -1,0 +1,20 @@
+<div class="favorites-page">
+  <div class="favorites-header">
+    <h1>Favorite</h1>
+    <p>Jocurile pe care le-ai salvat ca favorite.</p>
+  </div>
+
+  <div *ngIf="favorites.length === 0" class="empty-state">
+    <p>Nu ai niciun joc la favorite inca.</p>
+    <a routerLink="/browse" class="browse-link">
+      Vezi jocurile disponibile
+    </a>
+  </div>
+
+  <div *ngIf="favorites.length > 0" class="favorites-grid">
+    <app-game-card
+      *ngFor="let game of favorites"
+      [game]="game"
+    ></app-game-card>
+  </div>
+</div>
