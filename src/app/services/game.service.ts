@@ -9,7 +9,6 @@ import {
   GameScreenshotResponse
 } from '../models/game.model';
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -19,34 +18,17 @@ export class GameService {
 
   constructor(private http: HttpClient) {}
 
-getGames(
-  page: number = 1,
-  pageSize: number = 20,
-  search?: string,
-  platformId?: number,
-  year?: number
-) {
+  getGames(page: number = 1, pageSize: number = 20, search?: string): Observable<GameResponse> {
     let params = new HttpParams()
-  .set('key', this.apiKey)
-  .set('page', page)
-  .set('page_size', pageSize);
+      .set('key', this.apiKey)
+      .set('page', page.toString())
+      .set('page_size', pageSize.toString());
 
-if (search) {
-  params = params.set('search', search);
-}
+    if (search && search.trim().length > 0) {
+      params = params.set('search', search.trim());
+    }
 
-if (platformId) {
-  params = params.set('platforms', platformId);
-}
-
-if (year) {
-  const from = `${year}-01-01`;
-  const to = `${year}-12-31`;
-  params = params.set('dates', `${from},${to}`);
-}
-
-  return this.http.get<GameResponse>(`${this.apiUrl}/games`, { params });
-
+    return this.http.get<GameResponse>(`${this.apiUrl}/games`, { params });
   }
 
   getGameDetails(id: number): Observable<GameDetail> {
@@ -54,27 +36,17 @@ if (year) {
     return this.http.get<GameDetail>(`${this.apiUrl}/games/${id}`, { params });
   }
 
-  searchGames(query: string, page: number = 1, pageSize: number = 20): Observable<GameResponse> {
-  return this.getGames(page, pageSize, query);
+  getGameTrailers(id: number): Observable<GameTrailerResponse> {
+    const params = new HttpParams().set('key', this.apiKey);
+    return this.http.get<GameTrailerResponse>(`${this.apiUrl}/games/${id}/movies`, { params });
   }
 
-  getGameTrailers(id: number) {
-  const params = new HttpParams().set('key', this.apiKey);
+  getGameScreenshots(id: number): Observable<GameScreenshotResponse> {
+    const params = new HttpParams().set('key', this.apiKey);
+    return this.http.get<GameScreenshotResponse>(`${this.apiUrl}/games/${id}/screenshots`, { params });
+  }
 
-  return this.http.get<GameTrailerResponse>(
-    `${this.apiUrl}/games/${id}/movies`,
-    { params }
-  );
-}
-
-getGameScreenshots(id: number) {
-  const params = new HttpParams().set('key', this.apiKey);
-
-  return this.http.get<GameScreenshotResponse>(
-    `${this.apiUrl}/games/${id}/screenshots`,
-    { params }
-  );
-}
-
-
+  searchGames(query: string, page: number = 1, pageSize: number = 20): Observable<GameResponse> {
+    return this.getGames(page, pageSize, query);
+  }
 }

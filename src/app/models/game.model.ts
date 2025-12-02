@@ -1,16 +1,8 @@
-export interface Platform {
-  id: number;
-  name: string;
-  slug: string;
-}
-
-export interface ParentPlatform {
-  platform: Platform;
-}
-
-export interface Genre {
-  id: number;
-  name: string;
+export interface GamePlatformItem {
+  platform: {
+    id: number;
+    name: string;
+  };
 }
 
 export interface Game {
@@ -18,20 +10,19 @@ export interface Game {
   name: string;
   background_image: string;
   rating: number;
-  ratings_count: number;
   released: string;
   metacritic?: number;
-  genres?: Genre[];
-  platforms?: { platform: { id: number; name: string; } }[];
-  parent_platforms?: ParentPlatform[];
+  genres?: { id: number; name: string }[];
+  parent_platforms?: GamePlatformItem[];
+  platforms?: GamePlatformItem[];
 }
 
 export interface GameDetail extends Game {
   description_raw: string;
+  publishers?: { id: number; name: string }[];
+  developers?: { id: number; name: string }[];
   website?: string;
-  metacritic: number;
-  publishers?: { id: number; name: string; }[];
-  developers?: { id: number; name: string; }[];
+  playtime?: number;
 }
 
 export interface GameResponse {
@@ -46,12 +37,13 @@ export interface GameTrailer {
   name: string;
   preview: string;
   data: {
-    480: string;
+    '480': string;
     max: string;
   };
 }
 
 export interface GameTrailerResponse {
+  count: number;
   results: GameTrailer[];
 }
 
@@ -61,5 +53,6 @@ export interface GameScreenshot {
 }
 
 export interface GameScreenshotResponse {
+  count: number;
   results: GameScreenshot[];
 }

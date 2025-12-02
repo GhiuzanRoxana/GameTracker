@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { GameService } from '../../services/game.service';
-import { FavoritesService } from '../../services/favorites.service';
+
 import {
   GameDetail,
   GameTrailer,
   GameScreenshot
 } from '../../models/game.model';
+import { GameService } from '../../services/game.service';
+import { FavoritesService } from '../../services/favorites.service';
 
 @Component({
   selector: 'app-game-detail',
@@ -20,90 +21,92 @@ export class GameDetailComponent implements OnInit {
   game: GameDetail | null = null;
   trailers: GameTrailer[] = [];
   screenshots: GameScreenshot[] = [];
-  isLoading = true;
-  error: string | null = null;
+
+  loading = true;
+  errorMessage: string | null = null;
 
   constructor(
-  private route: ActivatedRoute,
-  private gameService: GameService,
-  private favoritesService: FavoritesService
- ) {}
+    private route: ActivatedRoute,
+    private gameService: GameService,
+    private favoritesService: FavoritesService
+  ) {}
 
   ngOnInit(): void {
     const idParam = this.route.snapshot.paramMap.get('id');
     const id = idParam ? Number(idParam) : null;
 
     if (!id) {
-      this.error = 'Invalid game id.';
-      this.isLoading = false;
+      this.errorMessage = 'Invalid game id.';
+      this.loading = false;
       return;
     }
 
     this.loadGame(id);
+    this.loadTrailers(id);
+    this.loadScreenshots(id);
   }
 
-  private loadGame(id: number): void {
-    this.isLoading = true;
-    this.error = null;
+  loadGame(id: number): void {
+    this.loading = true;
+    this.errorMessage = null;
 
     this.gameService.getGameDetails(id).subscribe({
-      next: (game) => {
-        this.game = game;
-        this.isLoading = false;
+      next: (data) => {
+        this.game = data;
+        this.loading = false;
       },
-      error: () => {
-        this.error = 'Failed to load game details.';
-        this.isLoading = false;
+      error: (error) => {
+        console.error('Error loading game details:', error);
+        this.errorMessage = 'Could not load game details.';
+        this.loading = false;
       }
     });
+  }
 
+  loadTrailers(id: number): void {
     this.gameService.getGameTrailers(id).subscribe({
-      next: (response) => {
-        this.trailers = response.results || [];
+      next: (data) => {
+        this.trailers = data.results;
       },
-      error: () => {
+      error: (error) => {
+        console.error('Error loading trailers:', error);
       }
     });
+  }
 
+  loadScreenshots(id: number): void {
     this.gameService.getGameScreenshots(id).subscribe({
-      next: (response) => {
-        this.screenshots = response.results || [];
+      next: (data) => {
+        this.screenshots = data.results;
       },
-      error: () => {
+      error: (error) => {
+        console.error('Error loading screenshots:', error);
       }
     });
+  }
+
+  get isFavorite(): boolean {
+    return this.game ? this.favoritesService.isFavorite(this.game.id) : false;
+  }
+
+  toggleFavorite(): void {
+    if (!this.game) {
+      return;
+    }
+
+    if (this.isFavorite) {
+      this.favoritesService.removeFavorite(this.game.id);
+    } else {
+      this.favoritesService.addFavorite(this.game);
+    }
   }
 
   get mainTrailerUrl(): string | null {
-    if (!this.trailers.length) {
+    if (this.trailers.length === 0) {
       return null;
     }
 
-    const trailer = this.trailers[0];
-    if (trailer.data && trailer.data.max) {
-      return trailer.data.max;
-    }
-    if (trailer.data && trailer.data['480']) {
-      return trailer.data['480'];
-    }
-    return null;
+    const first = this.trailers[0];
+    return first.data.max || first.data['480'];
   }
-
-get isFavorite(): boolean {
-  return this.game ? this.favoritesService.isFavorite(this.game.id) : false;
-}
-
-toggleFavorite(): void {
-  if (!this.game) {
-    return;
-  }
-
-  if (this.isFavorite) {
-    this.favoritesService.removeFavorite(this.game.id);
-  } else {
-    this.favoritesService.addFavorite(this.game);
-  }
-}
-
-
 }

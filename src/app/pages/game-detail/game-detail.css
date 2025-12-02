@@ -1,118 +1,58 @@
 .game-detail-page {
-  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 16px 40px;
 }
 
 .back-link {
-  display: inline-block;
   margin-bottom: 16px;
-  text-decoration: none;
+}
+
+.back-link a {
   font-size: 14px;
+  text-decoration: none;
   opacity: 0.8;
 }
 
-.back-link:hover {
+.back-link a:hover {
   opacity: 1;
 }
 
-.loading,
-.error {
-  font-size: 16px;
-  margin-top: 16px;
-}
-
-.error {
-  color: #ff6b6b;
-}
-
-.game-detail {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 24px;
-}
-
-.info-column {
-  flex: 1 1 320px;
-  max-width: 600px;
-}
-
-.media-column {
-  flex: 1 1 320px;
-}
-
-.title {
-  font-size: 28px;
-  margin-bottom: 12px;
-}
-
-.meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  font-size: 14px;
-  opacity: 0.9;
-  margin-bottom: 12px;
-}
-
-.chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 16px;
-}
-
-.chip {
-  padding: 4px 10px;
-  border-radius: 999px;
-  font-size: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-}
-
-.description {
-  font-size: 14px;
-  line-height: 1.6;
-  margin-bottom: 16px;
-}
-
-.trailer video {
-  width: 100%;
-  max-height: 360px;
-  border-radius: 8px;
-  outline: none;
-}
-
-.screenshots h3 {
-  margin: 16px 0 8px;
-  font-size: 16px;
-}
-
-.screenshots-grid {
+.hero {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 8px;
+  grid-template-columns: minmax(0, 380px) minmax(0, 1fr);
+  gap: 24px;
+  margin-bottom: 32px;
 }
 
-.screenshots-grid img {
+.cover img {
   width: 100%;
-  display: block;
-  border-radius: 6px;
+  border-radius: 12px;
   object-fit: cover;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+}
+
+.info h1 {
+  font-size: 32px;
+  margin: 0 0 8px;
 }
 
 .title-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  gap: 12px;
+  margin-bottom: 12px;
 }
 
 .favorite-btn {
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  background: transparent;
-  padding: 6px 12px;
   border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 6px 14px;
+  background: transparent;
+  color: #fff;
   cursor: pointer;
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.8);
 }
 
 .favorite-btn.is-favorite {
@@ -121,6 +61,123 @@
   border-color: #ffd54f;
 }
 
-.favorite-btn:hover {
-  transform: translateY(-1px);
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.meta-item {
+  min-width: 120px;
+}
+
+.label {
+  display: block;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.7;
+}
+
+.value {
+  font-size: 14px;
+}
+
+.value.metacritic {
+  font-weight: 600;
+  color: #7bff89;
+}
+
+.meta-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.chip {
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  font-size: 12px;
+}
+
+.description {
+  margin-top: 16px;
+}
+
+.description h2 {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.description p {
+  font-size: 14px;
+  line-height: 1.6;
+  opacity: 0.9;
+}
+
+.trailer-section,
+.screenshots-section {
+  margin-bottom: 24px;
+}
+
+.trailer-section h2,
+.screenshots-section h2 {
+  font-size: 20px;
+  margin-bottom: 12px;
+}
+
+.trailer-video {
+  width: 100%;
+  max-width: 800px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.screenshots-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px;
+}
+
+.screenshots-grid img {
+  width: 100%;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.loading,
+.error {
+  text-align: center;
+  padding: 100px 20px;
+  font-size: 16px;
+}
+
+.error a {
+  display: inline-block;
+  margin-top: 8px;
+  text-decoration: none;
+  opacity: 0.9;
+}
+
+.error a:hover {
+  opacity: 1;
+}
+
+@media (max-width: 900px) {
+  .hero {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .info h1 {
+    font-size: 26px;
+  }
 }

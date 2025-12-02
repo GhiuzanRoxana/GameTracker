@@ -1,99 +1,143 @@
-<div class="game-detail-page">
-  <a routerLink="/browse" class="back-link">← Back to browse</a>
-
-  <div *ngIf="isLoading" class="loading">
-    Loading game details...
+<div class="game-detail-page" *ngIf="!loading && game; else loadingOrError">
+  <div class="back-link">
+    <a routerLink="/browse">← Back to browse</a>
   </div>
 
-  <div *ngIf="!isLoading && error" class="error">
-    {{ error }}
-  </div>
+  <div class="hero">
+    <div class="cover">
+      <img
+        [src]="game?.background_image || 'assets/placeholder.jpg'"
+        [alt]="game?.name"
+      />
+    </div>
 
-  <div
-    *ngIf="!isLoading && !error && game as g"
-    class="game-detail"
-  >
-    <div class="info-column">
+    <div class="info">
       <div class="title-row">
-  <h1 class="title">
-    {{ g.name }}
-  </h1>
+        <h1>{{ game?.name }}</h1>
 
-  <button
-    class="favorite-btn"
-    (click)="toggleFavorite()"
-    [class.is-favorite]="isFavorite"
-  >
-    {{ isFavorite ? '★ Favorite' : '☆ Add to favorites' }}
-  </button>
-</div>
+        <button
+          class="favorite-btn"
+          (click)="toggleFavorite()
+          "
+          [class.is-favorite]="isFavorite"
+        >
+          {{ isFavorite ? '★ Favorite' : '☆ Add to favorites' }}
+        </button>
+      </div>
 
       <div class="meta">
-        <span *ngIf="g.released">
-          Release: {{ g.released | date }}
-        </span>
-
-        <span *ngIf="g.rating">
-          Rating: {{ g.rating }} / 5
-        </span>
-
-        <span *ngIf="g.metacritic">
-          Metacritic: {{ g.metacritic }}
-        </span>
-      </div>
-
-      <div class="chips">
-        <span
-          class="chip"
-          *ngFor="let platform of g.parent_platforms || []"
-        >
-          {{ platform.platform.name }}
-        </span>
-
-        <span
-          class="chip"
-          *ngFor="let genre of g.genres || []"
-        >
-          {{ genre.name }}
-        </span>
-      </div>
-
-      <p
-        class="description"
-        *ngIf="g.description_raw"
-      >
-        {{ g.description_raw }}
-      </p>
-
-      <div class="extra" *ngIf="g.website">
-        <a
-          [href]="g.website"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Official website
-        </a>
-      </div>
-    </div>
-
-    <div class="media-column">
-      <div class="trailer" *ngIf="mainTrailerUrl">
-        <video
-          [src]="mainTrailerUrl"
-          controls
-        ></video>
-      </div>
-
-      <div class="screenshots" *ngIf="screenshots.length">
-        <h3>Screenshots</h3>
-        <div class="screenshots-grid">
-          <img
-            *ngFor="let shot of screenshots"
-            [src]="shot.image"
-            [alt]="g.name + ' screenshot'"
-          />
+        <div class="meta-item">
+          <span class="label">Rating</span>
+          <span class="value">
+            {{ game?.rating || 'N/A' }}
+          </span>
         </div>
+
+        <div class="meta-item" *ngIf="game?.metacritic">
+          <span class="label">Metacritic</span>
+          <span class="value metacritic">
+            {{ game?.metacritic }}
+          </span>
+        </div>
+
+        <div class="meta-item" *ngIf="game?.released">
+          <span class="label">Release</span>
+          <span class="value">
+            {{ game?.released | date: 'dd MMM yyyy' }}
+          </span>
+        </div>
+
+        <div class="meta-item" *ngIf="game?.playtime">
+          <span class="label">Playtime</span>
+          <span class="value">
+            ~{{ game?.playtime }} h
+          </span>
+        </div>
+      </div>
+
+      <div class="meta-row" *ngIf="game?.parent_platforms?.length">
+        <span class="label">Platforms</span>
+        <span class="chips">
+          <span
+            class="chip"
+            *ngFor="let p of game?.parent_platforms"
+          >
+            {{ p.platform.name }}
+          </span>
+        </span>
+      </div>
+
+      <div class="meta-row" *ngIf="game?.genres?.length">
+        <span class="label">Genres</span>
+        <span class="chips">
+          <span
+            class="chip"
+            *ngFor="let g of game?.genres"
+          >
+            {{ g.name }}
+          </span>
+        </span>
+      </div>
+
+      <div class="meta-row" *ngIf="game?.developers?.length">
+        <span class="label">Developers</span>
+        <span class="chips">
+          <span
+            class="chip"
+            *ngFor="let d of game?.developers"
+          >
+            {{ d.name }}
+          </span>
+        </span>
+      </div>
+
+      <div class="meta-row" *ngIf="game?.publishers?.length">
+        <span class="label">Publishers</span>
+        <span class="chips">
+          <span
+            class="chip"
+            *ngFor="let p of game?.publishers"
+          >
+            {{ p.name }}
+          </span>
+        </span>
+      </div>
+
+      <div class="description" *ngIf="game?.description_raw">
+        <h2>Description</h2>
+        <p>{{ game?.description_raw }}</p>
       </div>
     </div>
   </div>
+
+  <section class="trailer-section" *ngIf="mainTrailerUrl">
+    <h2>Trailer</h2>
+    <video
+      class="trailer-video"
+      [src]="mainTrailerUrl"
+      controls
+      preload="metadata"
+    ></video>
+  </section>
+
+  <section class="screenshots-section" *ngIf="screenshots.length > 0">
+    <h2>Screenshots</h2>
+    <div class="screenshots-grid">
+      <img
+        *ngFor="let shot of screenshots"
+        [src]="shot.image"
+        [alt]="game?.name + ' screenshot'"
+      />
+    </div>
+  </section>
 </div>
+
+<ng-template #loadingOrError>
+  <div class="loading" *ngIf="loading">
+    <p>Loading game details...</p>
+  </div>
+  <div class="error" *ngIf="!loading && errorMessage">
+    <p>{{ errorMessage }}</p>
+    <a routerLink="/browse">Back to browse</a>
+  </div>
+</ng-template>
