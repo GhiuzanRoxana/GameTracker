@@ -17,6 +17,15 @@
       <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
       <a routerLink="/browse" routerLinkActive="active">Browse</a>
       <a routerLink="/favorites" routerLinkActive="active">Favorites</a>
+
+      <ng-container *ngIf="auth.isLoggedIn(); else loggedOut">
+        <a routerLink="/user" routerLinkActive="active" class="user-link">Hi, {{ auth.getUser()?.username }}</a>
+        <a (click)="logout()" class="logout-link">Logout</a>
+      </ng-container>
+
+      <ng-template #loggedOut>
+        <a routerLink="/login" routerLinkActive="active">Login</a>
+      </ng-template>
     </div>
   </div>
 </nav>

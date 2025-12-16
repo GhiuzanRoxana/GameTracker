@@ -1,0 +1,11 @@
+<div class="login-container">
+  <h2>Edit Gaming Accounts</h2>
+
+  <input [(ngModel)]="xbox" placeholder="Xbox Gamertag" />
+  <input [(ngModel)]="playstation" placeholder="PlayStation ID" />
+  <input [(ngModel)]="steam" placeholder="Steam Profile" />
+
+  <button (click)="save()">Save</button>
+
+  <a (click)="cancel()" class="register-link">Cancel</a>
+</div>

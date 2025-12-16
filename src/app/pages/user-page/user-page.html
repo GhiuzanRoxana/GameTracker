@@ -1,0 +1,47 @@
+<div class="user-container">
+
+  <h1>Welcome, {{ user?.username }} 👋</h1>
+
+  <section>
+    <h2>Your Favorites</h2>
+    
+    <div class="games-grid">
+      <app-game-card *ngFor="let game of favorites" [game]="game"></app-game-card>
+    </div>
+  </section>
+
+<section class="reviews-section" *ngIf="userReviews.length > 0">
+  <h2>Your Reviews</h2>
+
+  <div class="review-card" *ngFor="let r of userReviews">
+    <p>⭐ {{ r.rating }}/5</p>
+    <p>{{ r.comment }}</p>
+    <small>{{ r.date | date:'mediumDate' }}</small>
+  </div>
+</section>
+
+<section *ngIf="userReviews.length === 0">
+  <p>You haven't written any reviews yet.</p>
+</section>
+
+<section class="accounts-section">
+  <h2>Your Gaming Accounts</h2>
+
+  <ul>
+    <li>
+      Xbox:
+      <strong>{{ user?.accounts?.xbox || 'not set' }}</strong>
+    </li>
+    <li>
+      PlayStation:
+      <strong>{{ user?.accounts?.playstation || 'not set' }}</strong>
+    </li>
+    <li>
+      Steam:
+      <strong>{{ user?.accounts?.steam || 'not set' }}</strong>
+    </li>
+  </ul>
+
+  <button routerLink="/edit-accounts">Edit accounts</button>
+</section>
+</div>

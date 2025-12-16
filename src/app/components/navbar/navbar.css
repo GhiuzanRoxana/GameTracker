@@ -84,6 +84,12 @@
   color: #1b2838;
 }
 
+.nav-links a.logout-link:hover {
+  color: #ee9393;      
+  background: rgba(212, 80, 80, 0.1); /* opțional mic efect de fundal */
+  cursor: pointer;
+}
+
 @media (max-width: 768px) {
   .nav-container {
     flex-direction: column;
