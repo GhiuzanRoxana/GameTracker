@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { User, UserAccounts } from '../models/user.mode';
+import { User, UserAccounts } from '../models/user.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -87,5 +87,23 @@ export class AuthService {
   sessionStorage.setItem(this.SESSION_KEY, JSON.stringify(updatedUser));
   
   this.currentUserSubject.next(updatedUser);
+  }
+
+  updateProfileImage(imageBase64: string): void {
+    const user = this.getUser();
+    if (!user) return;
+
+    const updatedUser: User = {
+      ...user,
+      profileImage: imageBase64
+    };
+    const users = this.getAllUsers();
+    const idx = users.findIndex(u => u.username === user.username);
+
+    if (idx !== -1) {
+      users[idx] = updatedUser;
+      this.saveAllUsers(users);
+    }
+    this.saveSession(updatedUser);
   }
 }

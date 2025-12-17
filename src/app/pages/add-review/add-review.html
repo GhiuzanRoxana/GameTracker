@@ -1,0 +1,22 @@
+<div class="login-container">
+  <h2>Write a Review</h2>
+
+  <input [(ngModel)]="gameTitle" placeholder="Game title" />
+
+  <input
+    type="number"
+    [(ngModel)]="rating"
+    min="1"
+    max="10"
+    placeholder="Rating (1-10)"
+    (change)="checkRating()"
+  />
+
+  <textarea
+    [(ngModel)]="comment"
+    placeholder="Your review"
+  ></textarea>
+
+  <button (click)="save()">Save</button>
+  <a (click)="cancel()" class="register-link">Cancel</a>
+</div>

@@ -1,6 +1,37 @@
 <div class="user-container">
 
-  <h1>Welcome, {{ user?.username }} 👋</h1>
+  <div class="user-header">
+  <label class="avatar-wrapper" for="avatarInput">
+    <img
+      *ngIf="user?.profileImage; else noAvatar"
+      [src]="user.profileImage"
+      alt="Profile picture"
+    />
+
+    <ng-template #noAvatar>
+      <div class="avatar-placeholder">
+        {{ user?.username[0] | uppercase }}
+      </div>
+    </ng-template>
+
+    <div class="avatar-overlay">
+      Change
+    </div>
+  </label>
+
+  <input
+    type="file"
+    id="avatarInput"
+    accept="image/*"
+    hidden
+    (change)="onAvatarSelected($event)"
+  />
+
+    <div class="welcome-text">
+      <span class="welcome">Welcome, {{ user?.username }}</span>
+    </div>
+  </div>
+
 
   <section>
     <h2>Your Favorites</h2>
@@ -10,38 +41,45 @@
     </div>
   </section>
 
-<section class="reviews-section" *ngIf="userReviews.length > 0">
+  <section class="reviews-section">
   <h2>Your Reviews</h2>
 
-  <div class="review-card" *ngFor="let r of userReviews">
-    <p>⭐ {{ r.rating }}/5</p>
-    <p>{{ r.comment }}</p>
-    <small>{{ r.date | date:'mediumDate' }}</small>
+  <button routerLink="/add-review">Write a review</button>
+
+  <p *ngIf="userReviews.length === 0">
+    You haven't written any reviews yet.
+  </p>
+
+  <div class="reviews-grid" *ngIf="userReviews.length > 0">
+    <div class="review-card" *ngFor="let r of userReviews">
+      <h4>{{ r.gameTitle }}</h4>
+      <div class="rating">⭐ {{ r.rating }}/10</div>
+      <p>{{ r.comment }}</p>
+      <small>{{ r.date | date:'mediumDate' }}</small>
+
+      <button class="delete-btnq" (click)="deleteReview(r.id)">Delete</button>
+    </div>
   </div>
-</section>
+  </section>
 
-<section *ngIf="userReviews.length === 0">
-  <p>You haven't written any reviews yet.</p>
-</section>
+  <section class="accounts-section">
+    <h2>Your Gaming Accounts</h2>
 
-<section class="accounts-section">
-  <h2>Your Gaming Accounts</h2>
+    <ul>
+      <li>
+        Xbox:
+        <strong>{{ user?.accounts?.xbox || 'not set' }}</strong>
+      </li>
+      <li>
+        PlayStation:
+        <strong>{{ user?.accounts?.playstation || 'not set' }}</strong>
+      </li>
+      <li>
+        Steam:
+        <strong>{{ user?.accounts?.steam || 'not set' }}</strong>
+      </li>
+    </ul>
 
-  <ul>
-    <li>
-      Xbox:
-      <strong>{{ user?.accounts?.xbox || 'not set' }}</strong>
-    </li>
-    <li>
-      PlayStation:
-      <strong>{{ user?.accounts?.playstation || 'not set' }}</strong>
-    </li>
-    <li>
-      Steam:
-      <strong>{{ user?.accounts?.steam || 'not set' }}</strong>
-    </li>
-  </ul>
-
-  <button routerLink="/edit-accounts">Edit accounts</button>
-</section>
+    <button routerLink="/edit-accounts">Edit accounts</button>
+  </section>
 </div>
