@@ -1,9 +1,12 @@
 <nav class="navbar">
   <div class="nav-container">
+
+    <!-- LOGO -->
     <div class="logo">
       <a routerLink="/">🎮 GameTracker</a>
     </div>
 
+    <!-- SEARCH -->
     <div class="search-bar">
       <input 
         type="text" 
@@ -13,19 +16,59 @@
       <button (click)="onSearch()">Search</button>
     </div>
 
+    <!-- NAV LINKS -->
     <div class="nav-links">
-      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
-      <a routerLink="/browse" routerLinkActive="active">Browse</a>
-      <a routerLink="/favorites" routerLinkActive="active">Favorites</a>
+      <a 
+        routerLink="/" 
+        routerLinkActive="active" 
+        [routerLinkActiveOptions]="{ exact: true }">
+        Home
+      </a>
 
+      <a 
+        routerLink="/browse" 
+        routerLinkActive="active">
+        Browse
+      </a>
+
+      <!--  QUIZ  -->
+      <a 
+        routerLink="/quiz" 
+        routerLinkActive="active">
+        Quiz
+      </a>
+
+      <a 
+        routerLink="/favorites" 
+        routerLinkActive="active">
+        Favorites
+      </a>
+
+      <!-- LOGGED IN -->
       <ng-container *ngIf="auth.isLoggedIn(); else loggedOut">
-        <a routerLink="/user" routerLinkActive="active" class="user-link">Hi, {{ auth.getUser()?.username }}</a>
-        <a (click)="logout()" class="logout-link">Logout</a>
+        <a 
+          routerLink="/user" 
+          routerLinkActive="active" 
+          class="user-link">
+          Hi, {{ auth.getUser()?.username }}
+        </a>
+
+        <a 
+          (click)="logout()" 
+          class="logout-link">
+          Logout
+        </a>
       </ng-container>
 
+      <!-- LOGGED OUT -->
       <ng-template #loggedOut>
-        <a routerLink="/login" routerLinkActive="active">Login</a>
+        <a 
+          routerLink="/login" 
+          routerLinkActive="active">
+          Login
+        </a>
       </ng-template>
     </div>
+
   </div>
 </nav>

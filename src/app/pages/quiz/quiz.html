@@ -1,0 +1,177 @@
+<div class="quiz">
+
+  <header>
+    <h1>What should I play?</h1>
+
+    <span *ngIf="step < resultsStep">Step {{ step + 1 }} / {{ totalSteps }}</span>
+    <span *ngIf="step === resultsStep">Results</span>
+  </header>
+
+  <!-- STEP 1: PLATFORM -->
+  <section *ngIf="step === 0" class="card">
+    <h2>Platform</h2>
+    <div class="grid">
+      <button
+        *ngFor="let p of platformOptions"
+        class="option"
+        [class.active]="answers.platforms.includes(p)"
+        (click)="toggle(answers.platforms, p)">
+        {{ p }}
+      </button>
+    </div>
+    <button class="primary" (click)="next()">Next</button>
+  </section>
+
+  <!-- STEP 2: INCLUDE GENRES -->
+  <section *ngIf="step === 1" class="card">
+    <h2>Include genres</h2>
+    <p class="hint">Select what you want to play.</p>
+
+    <div class="grid">
+      <button
+        *ngFor="let g of allGenres"
+        class="option"
+        [class.active]="answers.includeGenres.includes(g)"
+        (click)="toggle(answers.includeGenres, g)">
+        {{ g }}
+      </button>
+    </div>
+
+    <div class="nav">
+      <button (click)="back()">Back</button>
+      <button class="primary" (click)="next()">Next</button>
+    </div>
+  </section>
+
+  <!-- STEP 3: EXCLUDE GENRES -->
+  <section *ngIf="step === 2" class="card">
+    <h2>Exclude genres</h2>
+    <p class="hint">Select genres you DON'T want.</p>
+
+    <div class="grid">
+      <button
+        *ngFor="let g of allGenres"
+        class="option danger"
+        [class.active]="answers.excludeGenres.includes(g)"
+        (click)="toggle(answers.excludeGenres, g)">
+        {{ g }}
+      </button>
+    </div>
+
+    <div class="nav">
+      <button (click)="back()">Back</button>
+      <button class="primary" (click)="next()">Next</button>
+    </div>
+  </section>
+
+  <!-- STEP 4: MIN METACRITIC -->
+  <section *ngIf="step === 3" class="card">
+    <h2>Minimum Metacritic</h2>
+    <p class="hint">0 = no filter</p>
+
+    <div class="rangeRow">
+      <span class="rangeVal">{{ answers.minMetacritic }}</span>
+      <input
+        type="range"
+        min="0"
+        max="100"
+        step="1"
+        [(ngModel)]="answers.minMetacritic"
+      />
+    </div>
+
+    <div class="nav">
+      <button (click)="back()">Back</button>
+      <button class="primary" (click)="next()">Next</button>
+    </div>
+  </section>
+
+  <!-- STEP 5: YEAR RANGE -->
+  <section *ngIf="step === 4" class="card">
+    <h2>Release year</h2>
+
+    <label>From {{ answers.minYear }}</label>
+    <input
+      type="range"
+      min="1995"
+      [max]="currentYear"
+      [(ngModel)]="answers.minYear"
+      (change)="fixYearRange()"
+    >
+
+    <label>To {{ answers.maxYear }}</label>
+    <input
+      type="range"
+      min="1995"
+      [max]="currentYear"
+      [(ngModel)]="answers.maxYear"
+      (change)="fixYearRange()"
+    >
+
+    <div class="nav">
+      <button (click)="back()">Back</button>
+      <button class="primary" (click)="next()">Next</button>
+    </div>
+  </section>
+
+  <!-- STEP 6: HOURS RANGE -->
+  <section *ngIf="step === 5" class="card">
+    <h2>Playtime (hours)</h2>
+
+    <label>Min {{ answers.minHours }}h</label>
+    <input
+      type="range"
+      min="1"
+      max="100"
+      [(ngModel)]="answers.minHours"
+      (change)="fixHoursRange()"
+    >
+
+    <label>Max {{ answers.maxHours }}h</label>
+    <input
+      type="range"
+      min="1"
+      max="100"
+      [(ngModel)]="answers.maxHours"
+      (change)="fixHoursRange()"
+    >
+
+    <div class="nav">
+      <button (click)="back()">Back</button>
+      <button class="primary" (click)="runQuiz()">Show results</button>
+    </div>
+  </section>
+
+  <!-- RESULTS -->
+  <section *ngIf="step === resultsStep" class="results">
+    <h2>Recommended games</h2>
+
+    <div *ngIf="loading" class="hint">Loading...</div>
+
+    <article
+      *ngFor="let r of results"
+      class="game clickable"
+      [routerLink]="['/game', r.game.id]"
+    >
+      <img [src]="r.game.background_image" alt="">
+
+      <div class="info">
+        <h3>{{ r.game.name }}</h3>
+        <p>
+          ⭐ {{ r.game.metacritic ?? 'N/A' }}
+          • ~{{ r.playtime }}h
+        </p>
+
+        <div class="tags">
+          <span *ngFor="let reason of r.reasons">{{ reason }}</span>
+        </div>
+      </div>
+    </article>
+
+    <div class="nav">
+      <button (click)="restart()">Restart</button>
+      <button class="primary" (click)="surpriseMe()">🎲 Surprise Me</button>
+    </div>
+  </section>
+
+</div>
